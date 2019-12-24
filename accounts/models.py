@@ -17,7 +17,7 @@ class Person(User):
 
 
 class SmsPerson(models.Model):
-    person = models.OneToOneField(Person)
+    person = models.CharField(max_length=32, unique=True)
     sms = models.CharField(max_length=6)
 
 

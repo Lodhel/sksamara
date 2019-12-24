@@ -2,7 +2,7 @@
 from datetime import datetime
 import hashlib
 import random
-from accounts.models import RegistrationConfirm
+from accounts.models import RegistrationConfirm, Person
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -112,4 +112,17 @@ def reset_target(request):
 @csrf_exempt
 def send_sms(request):
     form = SmsForm(request.POST or None)
+    if form.is_valid():
+        instance = form.is_valid()
+        user = Person.objects.get(phone=instance.person)
+        password = hashlib.sha1(datetime.now().isoformat() + str(random.randrange(1, 100000000000000000000)) + user.email).hexdigest()
+        password = password[:8]
+
+        password = instance.set_password(password)
+
+        user.password = password
+        user.save()
+
+        return redirect(reverse('registration-complete'))
+
     return render_to_response("accounts/send_sms.html", locals(), RequestContext(request))

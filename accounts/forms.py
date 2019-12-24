@@ -131,30 +131,64 @@ class ResetForm(ModelForm):
         try:
             phone = self.cleaned_data.get('phone')
             sms = self.generate()
-            user = Person.objects.get(phone=self.cleaned_data.get('phone'))
+            try:
+                user = Person.objects.get(phone=phone)
+            except:
+                user = Person.objects.get(phone="+{}".format(phone))
+
             sender = Gate('vf141149', '703271')
-            sender.send(phone, "Ваш код для изменения пароля: {}".format(sms))
-            person = SmsPerson(person=user, sms=sms)
+            #sender.send(phone, "Ваш код для изменения пароля: {}".format(sms))
+
+            try:
+                person = SmsPerson.objects.get(person=phone)
+            except:
+                try:
+                    person = SmsPerson.objects.get(person="+{}".format(phone))
+                except:
+                    person = None
+
+            if person:
+                person.delete()
+
+            person = SmsPerson(person=phone, sms=sms)
             person.save()
         except:
-            pass
+            raise forms.ValidationError(u'Пользователь не найден')
 
 
 class SmsForm(ModelForm):
 
+    password = forms.CharField(label=u'Пароль', widget=forms.PasswordInput())
+    password_confirm = forms.CharField(label=u'Повторите пароль', widget=forms.PasswordInput())
+
     def __init__(self, *args, **kwargs):
         super(SmsForm, self).__init__(*args, **kwargs)
         self.fields['sms'].required = True
+        self.fields['person'].required = True
+        self.fields['sms'].label = 'код из смс'
+        self.fields['person'].label = 'номер телефона'
 
     class Meta:
         model = SmsPerson
-        fields = ['sms', ]
+        fields = ['sms', "person"]
 
     def clean(self):
         try:
             sms = self.cleaned_data.get('sms')
-            objects = SmsPerson.objects.all()
-            print()
-        except:
-            pass
+            person = self.cleaned_data.get('person')
 
+            try:
+                target = SmsPerson.objects.get(person=person)
+            except:
+                target = SmsPerson.objects.get(person=person)
+
+            if target.sms != sms:
+                raise forms.ValidationError(u'К сожалению, код не совпадает.')
+
+            try:
+                user = Person.objects.get(phone=person)
+            except:
+                user = Person.objects.get("+{}".format(person))
+
+        except:
+            raise forms.ValidationError(u'Что то пошло не так.')
