@@ -1,0 +1,10 @@
+<div class="panel_user">
+{% if request.user.is_authenticated %}
+    Добро пожаловать,
+    {% firstof request.user.username %}
+    |
+    <a href="{% url 'accounts.views.log_out' %}">Выход</a>
+{% else %}
+    <a href="{% url 'accounts.views.log_in' %}">Вход </a>
+{% endif %}
+</div>

@@ -1,0 +1,18 @@
+syntax: glob
+*.pyc
+*.pyo
+*.orig
+*.swp
+.idea
+local_settings.py
+deployment_settings.py
+files
+django
+cert
+files
+*.pid
+*.log
+*.tar
+*.db
+syslog*
+

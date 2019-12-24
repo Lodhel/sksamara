@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Заявка на технологическое присоединение</h1>
+    <form method="post" enctype="multipart/form-data" action="{% url 'connection-request' %}">
+        {% csrf_token %}
+        <table width="90%">
+            {{ form.as_table }}
+
+            <tr>
+                <td colspan="2">
+                    <b>*Необходимо прикрепить следующие файлы:</b>
+                    <br>1. Отсканированную копию заполненного бланка заявки, заверенную подписью заявителя
+                    <br>2. Приложения, в соответствии с Постановлением Правительства Российской Федерации от 27 декабря 2004 г. N 861 (приложения перечислены в бланке заявки).<br>
+                </td>
+            </tr>
+            {{ files.management_form }}
+            {% for form in files.forms %}
+				{% for field in form %}
+					<tr>
+                        {% if forloop.parentloop.first %}
+                            <td rowspan="5">
+                                Прикрепить файлы
+                            </td>
+                        {% endif %}
+						<td>
+							{{ field }}
+						</td>
+					</tr>
+
+				{% endfor %}
+			{% endfor %}
+            <tr><td colspan="2">Объем прилагаемых файлов не должен превышать 15 МБ.</td></tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Отправить"> </td>
+            </tr>
+
+
+        </table>
+
+    </form>
+{% endblock %}

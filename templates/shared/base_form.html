@@ -1,0 +1,45 @@
+<fieldset>
+    {% if caption %}
+        <legend>{{ caption }}</legend>
+    {% endif %}
+
+    {% for e in form.non_field_errors %}
+        <p class="all_error error">{{ e }}</p>
+    {% endfor %}
+
+    <ul>
+        {{ form.as_ul }}
+{#        {% for field in form %}#}
+{#            <li >#}
+{#            #}
+{#                <span class="label">{{ field.label }}</span>#}
+{##}
+{#                <div>#}
+{#                    {{ field }}#}
+{#                    {% if field.errors %}#}
+{#                        <ul class="error-list error">#}
+{#                            {% for e in field.errors %}#}
+{#                                <li>{{ e }}</li>#}
+{#                            {% endfor %}#}
+{#                        </ul>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </li>#}
+{#        {% endfor %}#}
+
+        {% if submit %}
+            <li>
+                <label></label>
+                <div class="wide">
+                    <input type="submit" value="{{ submit }}" />
+                </div>
+            </li>
+        {% endif %}
+        {% if registration %}
+            <li>
+                <label></label>
+                <div><a href="{{ registration.link }}">{{ registration.caption }}</a></div>
+            </li>
+        {% endif %}
+    </ul>
+</fieldset>

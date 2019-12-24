@@ -1,0 +1,118 @@
+.style1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #254D5E;
+}
+.style2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #F9FFD1;
+}
+.style3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #254D5E;
+}
+.style4 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #F28041;
+	font-weight: bold;
+}
+.style5 {
+	font-family: Verdana;
+	font-size: 16px;
+	color: #254D5E;
+	font-weight: bold;
+	}
+.style7 {
+	font-family: Verdana;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+body {
+	background-color: #254D5E;
+}
+a:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a:visited {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a:hover {
+	color: #003333;
+	text-decoration: none;
+}
+a:active {
+	color: #003333;
+	text-decoration: none;
+}
+.orange_link:link {
+	color: #254D5E;
+	text-decoration: none;
+}
+.orange_link:visited {
+	color: #F28041;
+	text-decoration: none;
+}
+.orange_link:hover {
+	color: #507E91;
+	text-decoration: none;
+}
+.orange_link:active {
+	color: #254D5E;
+	text-decoration: none;
+}
+.style8 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 32px;
+	color: #FFFFFF;
+}
+.style9 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+.style10 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #000000;
+}
+.style11 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #254D5E;
+}
+.style12 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+.stylel15 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #254D5E; text-align:left;
+	border:#32B4B9;
+	border:medium;
+	background-color: #32B4B9;
+	border: 1px solid #3D7193;
+}
+	
+.editmenu {color:black}
+.editmenu a {color:black}
+#sk_content {line-height:18px;}
+#sk_content a {color:black}
+#sk_content p {margin:0px;text-indent:15px;text-align:justify;}
+.width250 {width: 100%;}
+
+
+form table th {
+    text-align: left;
+    font-weight: normal;
+}

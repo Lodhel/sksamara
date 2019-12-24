@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  runserver:
+    build: .
+    command: bash -c "python /code/manage.py migrate && python /code/manage.py collectstatic --noinput && gunicorn --workers=2 sksamara.wsgi -b 127.0.0.1:8005"
+    restart: always
+    user: ${CURRENT_UID}
+    volumes:
+      - .:/code
+    ports:
+      - 8005:8005
+    network_mode: host
+
+  runtestserver:
+    build: .
+    command: bash -c "python /code/manage.py migrate && python /code/manage.py collectstatic --noinput && gunicorn --workers=2 sksamara.wsgi -b 127.0.0.1:8005"
+    restart: always
+    user: ${CURRENT_UID}
+    volumes:
+      - .:/code
+    ports:
+      - 8005:8005
+    network_mode: host

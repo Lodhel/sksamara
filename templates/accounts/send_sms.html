@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <legend>&nbsp;&nbsp;&nbsp;&nbsp;Ввод кода из СМС</legend>
+<form method="POST" action="{% url 'send-sms' %}">
+        {% csrf_token %}
+        <table style="width:90%">
+            <tbody>
+                {{ form.as_table }}
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        <input class="btn btn-success" type="submit" name="order" value="Подтвердить">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+{% endblock %}

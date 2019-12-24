@@ -1,0 +1,89 @@
+{% load manager %}
+
+{% for c in counters %}
+    <span class="counters-content" style="display: none;">
+        {% include "shared/counters.html" with old=c %}
+    </span>
+{% endfor %}
+
+{% if proxy.last %}
+    <input type="hidden" name="last-order-id" value="{{ proxy.last.id }}" />
+{% endif %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Менеджер</th>
+        <th>Дата и время</th>
+        <th>Перезвонить</th>
+        <th>ID</th>
+        <th>Товар</th>
+        <th>ФИО</th>
+        <th>Телефон</th>
+        <th>Адрес</th>
+        <th>Статус</th>
+        <th>Коментарий</th>
+        <th>#</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        {% url 'manager.views.order' order.id as url %}
+        <tr>
+        <tr class="link{% if order.is_paid %} paid{% endif %}">
+            <td class="paid-td"><a href="{{ url }}">
+                {% if order.manager %}
+                    {{ order.manager|manager }}
+                {% endif %}
+            </a></td>
+            <td class="a-center paid-td">
+                <a href="{{ url }}">
+                    {#                    {{ order.datetime|date:settings.DATETIME_FORMAT_FOR_TEMPLATE }}#}
+                    {{ order.datetime|date:settings.DATETIME_FORMAT }}
+                </a>
+            </td>
+            <td class="a-center">
+                <a href="{{ url }}"{% if order.next_call_datetime and order.next_call_datetime < current_time %} style="color:red;"{% endif %}>
+                    {{ order.next_call_datetime|date:settings.DATETIME_FORMAT }}
+                </a>
+            </td>
+            <td class="paid-td"><a href="{{ url }}">{{ order.id }}</a></td>
+            <td class="paid-td"><a href="{{ url }}">
+                {% if order.good_name %}
+                    {{ order.good_name }}
+                {% endif %}
+            </a></td>
+            <td class="paid-td"><a href="{{ url }}">{{ order.real_fio|default:order.name }}</a></td>
+            <td class="paid-td"><a href="{{ url }}">
+                {{ order.real_phone1|default:order.phone }}
+                {% if order.real_phone2 %}
+                    <div>{{ order.real_phone2 }}</div>
+                {% endif %}
+            </a></td>
+            <td class="paid-td"><a href="{{ url }}">
+                {% if order.real_city %}
+                    <div>{{ order.real_index }} {{ order.real_city }}</div>
+                {% endif %}
+                {{ order|address }}
+            </a></td>
+            <td class="paid-td"><a href="{{ url }}">
+                {{ order.state }}
+{#                {% if order.next_call_datetime or order.call_attempt %}#}
+{#                    <div style="font-size: 0.7em">#}
+{#                        <span style="color: #AAAAAA">(</span>#}
+{#                        {% if order.next_call_datetime %}#}
+{#                            <span style="color: #AAAAAA">сл. зв.</span> <span{% if order.next_call_datetime < current_time %} style="color: #009900;font-weight: bold"{% endif %}>{{ order.next_call_datetime|date:settings.DATETIME_FORMAT }}</span>#}
+{#                        {% endif %}#}
+{#                        {% if order.call_attempt %}#}
+{#                            <span style="color: #AAAAAA">звонили.</span> {{ order.call_attempt }} <span style="color: #AAAAAA">раз</span>#}
+{#                        {% endif %}#}
+{#                        <span style="color: #AAAAAA">)</span>#}
+{#                    </div>#}
+{#                {% endif %}#}
+            </a></td>
+            <td class="paid-td"><a href="{{ url }}">{% if order.comment %}{{ order.comment }}{% endif %}</a></td>
+            <td class="a-center paid-td"><a href="{{ url }}">{{ order.call_attempt }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

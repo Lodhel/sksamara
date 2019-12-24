@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="ru">
+<meta name="keywords" content="Сетевая компания">
+<title>ООО "Сетевая компания"</title>
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+<link rel="stylesheet" href="{% static 'css/addons.css' %}">
+{#<link rel="stylesheet" type="text/css" href="css/datepicker.css" />#}
+{#<link rel="stylesheet" type="text/css" href="js/jquery.lightbox.css">#}
+{#<script type="text/javascript" src="js/jquery.js"></script>          #}
+{#<script type="text/javascript" src="js/jquery.datePicker-2.1.2.js"></script>#}
+{#<script type="text/javascript" src="js/jquery.lightbox.js"></script> #}
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="900" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#254D5E">
+  <tr>                                                                      
+    <td><table width="900" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="5"></td>
+      </tr>
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td>&nbsp;</td>
+            <td width="720" align="center"><table width="720" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td background="{% static 'images/h_bg.jpg' %}"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="103" align="left"><img src="{% static 'images/h_1.jpg' %}" alt="" width="81" height="219"></td>
+                    <td width="436" align="right" valign="middle" background="{% static 'images/h_bg.jpg' %}"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="26">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td><span class="style8">ООО "Сетевая компания"</span></td>
+                      </tr>
+                      <tr>
+                        <td>&nbsp;</td>
+                      </tr>
+                    </table></td>
+                    <td width="181" align="right"></td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><img src="{% static 'images/box_top.gif' %}" alt="" width="720" height="6"></td>
+                  </tr>
+                  <tr>
+                    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="195" align="center" valign="top" bgcolor="#AFF7FA"><br>
+                          <table width="87%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="center" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
+                              {% for p in pages %}
+                                  <tr>
+                                    <td bgcolor="#32B4B9" class="stylel15"><table width="100%"  border="0" cellspacing="0" cellpadding="4">
+                                      <tr>
+                                        <td width="28" align="center"><img src="{% static 'images/arrow.gif' %}" width="13" height="7" alt="" /></td>
+                                        <td><span class="style1"><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></span></td>
+                                      </tr>
+                                    </table></td>
+                                  </tr>
+
+                                  {% if forloop.counter == 3 %}
+                                      <tr>
+                                        <td bgcolor="#32B4B9" class="stylel15"><table width="100%"  border="0" cellspacing="0" cellpadding="4">
+                                          <tr>
+                                            <td width="28" align="center"><img src="{% static 'images/arrow.gif' %}" width="13" height="7" alt="" /></td>
+                                            <td><span class="style1"><a href="{% url 'connection-request' %}">Заявка на технологическое присоединение</a></span></td>
+                                          </tr>
+                                        </table></td>
+                                      </tr>
+
+                                  {% endif %}
+                              {% endfor %}
+                                <tr>
+                                    <td bgcolor="#32B4B9" class="stylel15"><table width="100%"  border="0" cellspacing="0" cellpadding="4">
+                                      <tr>
+                                        <td width="28" align="center"><img src="{% static 'images/arrow.gif' %}" width="13" height="7" alt="" /></td>
+                                        <td><span class="style1"><a href="{% url 'client' %}">Личный кабинет</a></span></td>
+                                      </tr>
+                                    </table></td>
+                                  </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                        <td width="517" align="left" valign="top" bgcolor="#FFFFFF" id="sk_content">
+                            {% block content %}{% endblock %}
+                        </td>
+  </tr>
+   </table></td>
+   </tr>
+   <tr>
+     <td><img src="{% static 'images/box_bottom.gif' %}" alt="" width="720" height="6"></td>
+        </tr>
+                </table></td>
+              </tr>
+            </table></td>
+            <td>&nbsp;</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="30" align="center"><span class="style7">Copyright &copy; 2013 ООО "Сетевая компания" </span></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

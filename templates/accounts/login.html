@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <legend>&nbsp;&nbsp;&nbsp;&nbsp;Вход в личный кабинет</legend>
+
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table style="width:90%">
+            <tbody>
+
+                {{ form.as_table }}
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        <input class="btn btn-success" type="submit" name="order" value="Вход">
+                        <a class="btn btn-info action" href="{% url 'pre-registration' %}">Регистрация</a>
+                        <br /><br />
+                        <p><a class="btn btn-default" href="{% url 'reset-target' %}">Забыли пароль?</a></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+{% endblock %}

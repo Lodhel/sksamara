@@ -1,0 +1,16 @@
+<div class="commands">
+    {% if o.state.position == OrderStates.new or o.manager == None %}
+        {% include "shared/button.html" with type="submit" name="to-work" value="Взять в работу" title="Взять в работу" %}
+    {% endif %}
+    {% include "shared/button.html" with type="submit" name="save" value="Сохранить" title="Сохранить изменения" %}
+    {% include "shared/button.html" with type="submit" name="duplicate" value="Дубль" title="Повторный заказ" %}
+    {% include "shared/button.html" with type="submit" name="out-of-stock" value="Нет в наличии" title="Нет в наличии нужной модели" %}
+    {% include "shared/button.html" with type="submit" name="anomalous-data" value="Неверные данные" title='Когда посетитель сайта &quot;попрыгал попой&quot; на клавиатуре' %}
+</div>
+<div class="commands">
+    {% include "shared/button.html" with type="submit" name="sell" value="Продажа" title="Заказ подтвержден" %}
+    {% include "shared/button.html" with type="submit" name="no-answer" value="Недоступен" title="Если телефон не отвечает" %}
+    {% include "shared/button.html" with type="button" value="Перезвонить позже" onclick="onCallLetter()" title="Если клиент сказал во сколько перезвонить" %}
+    {% include "shared/button.html" with type="submit" name="by-order" value="Под заказ" title="Нет нужной модели в наличии, клиент просил позвонить, как появится" %}
+    {% include "shared/button.html" with type="button" value="Отказ" onclick="onCancel()" title="Клиент передумал" %}
+</div>

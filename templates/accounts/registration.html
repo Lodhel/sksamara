@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <legend>&nbsp;&nbsp;&nbsp;&nbsp;Регистрация физического лица</legend>
+
+    <form method="POST" action=".">
+        {% csrf_token %}
+        <table style="width:90%">
+            <tbody>
+                {{ form.as_table }}
+                <tr>
+                    <td class="first"></td>
+                    <td>
+                        <input class="btn btn-success" type="submit" name="order" value="Зарегистрировать">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+{% endblock %}

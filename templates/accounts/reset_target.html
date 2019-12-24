@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <legend>&nbsp;&nbsp;&nbsp;&nbsp;Личный кабинет</legend>
+
+    <h2>&nbsp;&nbsp;&nbsp;&nbsp;Я</h2>
+    <p>
+        <button onclick="location='{% url 'reset-password' %}';" name="button1id" class="btn btn-success action" rel="#b-individual">Физическое лицо</button>
+        <button onclick="location='{% url 'reset-password' %}';" name="button1id" class="btn btn-success action" rel="#b-individual">Юридическое лицо</button>
+    </p>
+
+{% endblock %}
