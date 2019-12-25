@@ -2,7 +2,7 @@
 import random
 import string
 
-from accounts.models import Person, Company, SmsPerson
+from accounts.models import Person, Company, SmsPerson, SmsCompany
 from django import forms
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -137,7 +137,7 @@ class ResetForm(ModelForm):
                 user = Person.objects.get(phone="+{}".format(phone))
 
             sender = Gate('vf141149', '703271')
-            #sender.send(phone, "Ваш код для изменения пароля: {}".format(sms))
+            sender.send(phone, "Ваш код для изменения пароля: {}".format(sms))
 
             try:
                 person = SmsPerson.objects.get(person=phone)
@@ -173,6 +173,10 @@ class SmsForm(ModelForm):
         fields = ['sms', "person"]
 
     def clean(self):
+        if self.cleaned_data["password_confirm"] != self.cleaned_data["password"]:
+                raise forms.ValidationError(u'К сожалению, пароли не совпадают.')
+        if len(self.cleaned_data["password"]) < 8:
+                raise forms.ValidationError(u'Пароль должен быть не менее 8 символов.')
         try:
             sms = self.cleaned_data.get('sms')
             person = self.cleaned_data.get('person')
@@ -189,6 +193,91 @@ class SmsForm(ModelForm):
                 user = Person.objects.get(phone=person)
             except:
                 user = Person.objects.get("+{}".format(person))
+
+        except:
+            raise forms.ValidationError(u'Что то пошло не так.')
+
+
+class CompanyResetForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CompanyResetForm, self).__init__(*args, **kwargs)
+        self.fields['phone'].required = True
+        self.fields['phone'].label = ''
+
+    class Meta:
+        model = Company
+        fields = ['phone', ]
+
+    def generate(self, size=4, chars=string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
+
+    def clean(self):
+        try:
+            phone = self.cleaned_data.get('phone')
+            sms = self.generate()
+            try:
+                user = Company.objects.get(phone=phone)
+            except:
+                user = Company.objects.get(phone="+{}".format(phone))
+
+            sender = Gate('vf141149', '703271')
+            sender.send(phone, "Ваш код для изменения пароля: {}".format(sms))
+
+            try:
+                person = SmsCompany.objects.get(person=phone)
+            except:
+                try:
+                    person = SmsCompany.objects.get(person="+{}".format(phone))
+                except:
+                    person = None
+
+            if person:
+                person.delete()
+
+            person = SmsCompany(person=phone, sms=sms)
+            person.save()
+        except:
+            raise forms.ValidationError(u'Пользователь не найден')
+
+
+class CompanySmsForm(ModelForm):
+
+    password = forms.CharField(label=u'Пароль', widget=forms.PasswordInput())
+    password_confirm = forms.CharField(label=u'Повторите пароль', widget=forms.PasswordInput())
+
+    def __init__(self, *args, **kwargs):
+        super(CompanySmsForm, self).__init__(*args, **kwargs)
+        self.fields['sms'].required = True
+        self.fields['person'].required = True
+        self.fields['sms'].label = 'код из смс'
+        self.fields['person'].label = 'номер телефона'
+
+    class Meta:
+        model = SmsCompany
+        fields = ['sms', "person"]
+
+    def clean(self):
+        if self.cleaned_data["password_confirm"] != self.cleaned_data["password"]:
+                raise forms.ValidationError(u'К сожалению, пароли не совпадают.')
+        if len(self.cleaned_data["password"]) < 8:
+                raise forms.ValidationError(u'Пароль должен быть не менее 8 символов.')
+        try:
+            sms = self.cleaned_data.get('sms')
+            person = self.cleaned_data.get('person')
+
+            try:
+                target = SmsCompany.objects.get(person=person)
+            except:
+                target = SmsCompany.objects.get(person=person)
+
+            if target.sms != sms:
+                raise forms.ValidationError(u'К сожалению, код не совпадает.')
+
+            try:
+                user = Company.objects.get(phone=person)
+            except:
+                user = Company.objects.get("+{}".format(person))
 
         except:
             raise forms.ValidationError(u'Что то пошло не так.')

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <legend>&nbsp;&nbsp;&nbsp;&nbsp;Личный кабинет</legend>
+    <p><b>Ваш пароль был успешно изменен</b></p>
+<p>С уважением, отдел по взаимодействию с клиентами ООО "Сетевая компания"</p>
+    <p>
+        <button onclick="location='{% url 'login' %}';" name="button1id" class="btn btn-success action" rel="#b-individual">Войти в личный кабинет</button>
+    </p>
+
+{% endblock %}

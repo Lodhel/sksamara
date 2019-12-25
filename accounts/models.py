@@ -21,6 +21,11 @@ class SmsPerson(models.Model):
     sms = models.CharField(max_length=6)
 
 
+class SmsCompany(models.Model):
+    person = models.CharField(max_length=32, unique=True)
+    sms = models.CharField(max_length=6)
+
+
 class Company(User):
     name = models.CharField(u'Наименование организации', max_length=120)
     inn = models.CharField(u'ИНН', max_length=20)

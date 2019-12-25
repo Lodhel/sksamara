@@ -2,7 +2,7 @@
 from datetime import datetime
 import hashlib
 import random
-from accounts.models import RegistrationConfirm, Person
+from accounts.models import RegistrationConfirm, Person, Company
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
-from accounts.forms import LoginForm, RegistrationForm, PersonForm, CompanyForm, ResetForm, SmsForm
+from accounts.forms import LoginForm, RegistrationForm, PersonForm, CompanyForm, ResetForm, SmsForm, CompanyResetForm, CompanySmsForm
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from html_mailer import send_mail, mail_admins
@@ -102,6 +102,8 @@ def registration_confirm(request, key):
 @csrf_exempt
 def reset_password(request):
     form = ResetForm(request.POST or None)
+    if form.is_valid():
+        return redirect(reverse('send-sms'))
     return render_to_response("accounts/reset_password.html", locals(), RequestContext(request))
 
 
@@ -113,16 +115,39 @@ def reset_target(request):
 def send_sms(request):
     form = SmsForm(request.POST or None)
     if form.is_valid():
-        instance = form.is_valid()
-        user = Person.objects.get(phone=instance.person)
-        password = hashlib.sha1(datetime.now().isoformat() + str(random.randrange(1, 100000000000000000000)) + user.email).hexdigest()
-        password = password[:8]
+        instance = form.cleaned_data
+        try:
+            user = Person.objects.get(phone=instance["person"])
+        except:
+            user = Person.objects.get(phone="+{}".format(instance["person"]))
 
-        password = instance.set_password(password)
-
-        user.password = password
+        user.set_password(instance["password"])
         user.save()
 
-        return redirect(reverse('registration-complete'))
-
+        return redirect(reverse('sms-complete'))
     return render_to_response("accounts/send_sms.html", locals(), RequestContext(request))
+
+
+@csrf_exempt
+def company_reset_password(request):
+    form = CompanyResetForm(request.POST or None)
+    if form.is_valid():
+        return redirect(reverse('company-send-sms'))
+    return render_to_response("accounts/company_reset_password.html", locals(), RequestContext(request))
+
+
+@csrf_exempt
+def company_send_sms(request):
+    form = CompanySmsForm(request.POST or None)
+    if form.is_valid():
+        instance = form.cleaned_data
+        try:
+            user = Company.objects.get(phone=instance["person"])
+        except:
+            user = Company.objects.get(phone="+{}".format(instance["person"]))
+
+        user.set_password(instance["password"])
+        user.save()
+
+        return redirect(reverse('sms-complete'))
+    return render_to_response("accounts/company_send_sms.html", locals(), RequestContext(request))
